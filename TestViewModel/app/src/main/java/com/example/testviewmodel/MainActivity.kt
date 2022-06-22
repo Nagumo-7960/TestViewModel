@@ -20,6 +20,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
 class MainActivity : ComponentActivity() {
+    var favoriteState = true
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -27,7 +29,8 @@ class MainActivity : ComponentActivity() {
                 modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center
             ) {
-                NonFavoriteButton()
+                if (favoriteState == false) NonFavoriteButton(favoriteState)
+                else FavoriteButton(favoriteState)
             }
         }
     }
@@ -35,10 +38,11 @@ class MainActivity : ComponentActivity() {
 
 
 @Composable
-fun NonFavoriteButton() {
+fun NonFavoriteButton(favoriteState: Boolean) {
+    var favoriteState = false
     Button(
         onClick = {
-
+            favoriteState = true
         },
         contentPadding = PaddingValues(
             start = 20.dp,
@@ -67,10 +71,11 @@ fun NonFavoriteButton() {
 }
 
 @Composable
-fun FavoriteButton() {
+fun FavoriteButton(favoriteState: Boolean) {
+    var favoriteState = true
     Button(
         onClick = {
-
+            favoriteState = false
         },
         contentPadding = PaddingValues(
             start = 20.dp,
@@ -101,11 +106,13 @@ fun FavoriteButton() {
 @Preview
 @Composable
 fun PreviewNonFavoriteButton() {
-    NonFavoriteButton()
+    var favoriteState = false
+    NonFavoriteButton(favoriteState)
 }
 
 @Preview
 @Composable
 fun PreviewFavoriteButton() {
-    FavoriteButton()
+    var favoriteState = false
+    FavoriteButton(favoriteState)
 }
