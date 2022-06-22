@@ -12,8 +12,7 @@ import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -22,32 +21,41 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
 class MainActivity : ComponentActivity() {
-    val viewModel:FavoriteViewModel = FavoriteViewModel()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            val favoriteState = viewModel.favoriteState.observeAsState().value
             Box(
                 modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center
             ) {
-                if (favoriteState == false) NonFavoriteButton(favoriteState)
-                else FavoriteButton(favoriteState == true)
+                Screen()
             }
         }
     }
 }
 
+@Composable
+fun Screen() {
+    var favoriteState by remember { mutableStateOf(false) }
+    Log.d("favorite", favoriteState.toString())
+    if (favoriteState) {
+        FavoriteButton(favoriteState){
+            favoriteState = false
+            Log.d("favorite", favoriteState.toString())
+        }
+    } else {
+        NonFavoriteButton(favoriteState, onClick = {
+            favoriteState = true
+            Log.d("favorite", favoriteState.toString())
+        })
+    }
+}
 
 @Composable
-fun NonFavoriteButton(favoriteState: Boolean) {
+fun NonFavoriteButton(favoriteState: Boolean, onClick: () -> Unit) {
     var favoriteState = false
     Button(
-        onClick = {
-            favoriteState = true
-            Log.d("favorite",favoriteState.toString())
-        },
+        onClick = onClick,
         contentPadding = PaddingValues(
             start = 20.dp,
             top = 12.dp,
@@ -75,13 +83,9 @@ fun NonFavoriteButton(favoriteState: Boolean) {
 }
 
 @Composable
-fun FavoriteButton(favoriteState: Boolean) {
-    var favoriteState = true
+fun FavoriteButton(favoriteState: Boolean, onClick:()->Unit) {
     Button(
-        onClick = {
-            favoriteState = false
-            Log.d("favorite",favoriteState.toString())
-        },
+        onClick = onClick,
         contentPadding = PaddingValues(
             start = 20.dp,
             top = 12.dp,
@@ -108,16 +112,16 @@ fun FavoriteButton(favoriteState: Boolean) {
     }
 }
 
-@Preview
-@Composable
-fun PreviewNonFavoriteButton() {
-    var favoriteState = false
-    NonFavoriteButton(favoriteState)
-}
-
-@Preview
-@Composable
-fun PreviewFavoriteButton() {
-    var favoriteState = false
-    FavoriteButton(favoriteState)
-}
+//@Preview
+//@Composable
+//fun PreviewNonFavoriteButton() {
+//    var favoriteState = false
+//    NonFavoriteButton(favoriteState)
+//}
+//
+//@Preview
+//@Composable
+//fun PreviewFavoriteButton() {
+//    var favoriteState = false
+//    FavoriteButton(favoriteState)
+//}
