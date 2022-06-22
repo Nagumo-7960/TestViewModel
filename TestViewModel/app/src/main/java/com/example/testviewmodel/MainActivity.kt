@@ -1,6 +1,7 @@
 package com.example.testviewmodel
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
@@ -20,7 +21,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
 class MainActivity : ComponentActivity() {
-    var favoriteState = true
+    var favoriteState = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,6 +44,7 @@ fun NonFavoriteButton(favoriteState: Boolean) {
     Button(
         onClick = {
             favoriteState = true
+            Log.d("favorite",favoriteState.toString())
         },
         contentPadding = PaddingValues(
             start = 20.dp,
@@ -76,6 +78,7 @@ fun FavoriteButton(favoriteState: Boolean) {
     Button(
         onClick = {
             favoriteState = false
+            Log.d("favorite",favoriteState.toString())
         },
         contentPadding = PaddingValues(
             start = 20.dp,
