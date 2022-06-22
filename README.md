@@ -1,0 +1,2 @@
+# TestViewModel
+押した時ボタンの色が変わる操作をViewModelを使って実装する
